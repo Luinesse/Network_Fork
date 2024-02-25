@@ -101,7 +101,8 @@ int main() {
             return 0;
         }
 
-        cout << "상대방 : " << buf << endl;
+        if(strlen(buf) >= 1)
+            cout << "상대방 : " << buf << endl;
 
         this_thread::sleep_for(100ms);
     }
