@@ -84,9 +84,7 @@ int main() {
 
 
     while (true) {
-        string message = "";
-        cout << "당신 : ";
-        cin >> message;
+        string message = "send from windows";
 
         int sendlen = sendto(clisock, message.c_str(), message.length() + 1, 0, (sockaddr*)&servAddr, sizeof(servAddr));
         if (sendlen == SOCKET_ERROR) {
@@ -100,7 +98,7 @@ int main() {
             return 0;
         }
 
-        cout << "상대방 : " << buf << endl;
+        cout << "Echo: " << buf << endl;
 
         this_thread::sleep_for(100ms);
     }
