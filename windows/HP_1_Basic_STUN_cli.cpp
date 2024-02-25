@@ -64,7 +64,7 @@ int main() {
 
 
 
-    bool isLocalNet = false; // 로컬 넷(같은 NAT)에서 홀펀칭을 하려면 true로 변경
+    bool isLocalNet = true; // 로컬 넷(같은 NAT)에서 홀펀칭을 하려면 true로 변경
     string destIP, destPort;
     getTargetIP(buf, destIP, destPort, isLocalNet);
 
@@ -84,7 +84,9 @@ int main() {
 
 
     while (true) {
-        string message = "send from windows";
+        string message = "";
+        cout << "당신 : ";
+        cin >> message;
 
         int sendlen = sendto(clisock, message.c_str(), message.length() + 1, 0, (sockaddr*)&servAddr, sizeof(servAddr));
         if (sendlen == SOCKET_ERROR) {
@@ -98,7 +100,7 @@ int main() {
             return 0;
         }
 
-        cout << "Echo: " << buf << endl;
+        cout << "상대방 : " << buf << endl;
 
         this_thread::sleep_for(100ms);
     }
