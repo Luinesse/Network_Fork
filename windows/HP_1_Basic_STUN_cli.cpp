@@ -3,6 +3,8 @@
 char *getIPonDNS(string domain);
 
 void getTargetIP (char *buf, string &ip, string &port, bool isLocalNet);
+queue<string> msgQueue;
+string inputKeyBoard();
 
 int main() {
     WSAData wsaData;
@@ -84,7 +86,8 @@ int main() {
 
 
     while (true) {
-        string message = "send from windows";
+        string message = "Heart Beat";
+        message = inputKeyBoard();
 
         int sendlen = sendto(clisock, message.c_str(), message.length() + 1, 0, (sockaddr*)&servAddr, sizeof(servAddr));
         if (sendlen == SOCKET_ERROR) {
@@ -98,7 +101,7 @@ int main() {
             return 0;
         }
 
-        cout << "Echo: " << buf << endl;
+        cout << "상대방 : " << buf << endl;
 
         this_thread::sleep_for(100ms);
     }
@@ -145,4 +148,70 @@ void getTargetIP(char *buf, string &ip, string &port, bool isLocalNet) {
 
     ip = tokens[1].substr(0, tokens[1].find(':'));
     port = tokens[1].substr(tokens[1].find(':') + 1);
+}
+
+string inputKeyBoard() {
+    string returnData = "";
+    if(GetAsyncKeyState(0x41) & 0x8000) {
+            msgQueue.push("a");
+        } else if(GetAsyncKeyState(0x42) & 0x8000) {
+            msgQueue.push("b");
+        } else if(GetAsyncKeyState(0x43) & 0x8000) {
+            msgQueue.push("c");
+        } else if(GetAsyncKeyState(0x44) & 0x8000) {
+            msgQueue.push("d");
+        } else if(GetAsyncKeyState(0x45) & 0x8000) {
+            msgQueue.push("e");
+        } else if(GetAsyncKeyState(0x46) & 0x8000) {
+            msgQueue.push("f");
+        } else if(GetAsyncKeyState(0x47) & 0x8000) {
+            msgQueue.push("g");
+        } else if(GetAsyncKeyState(0x48) & 0x8000) {
+            msgQueue.push("h");
+        } else if(GetAsyncKeyState(0x49) & 0x8000) {
+            msgQueue.push("i");
+        } else if(GetAsyncKeyState(0x4A) & 0x8000) {
+            msgQueue.push("j");
+        } else if(GetAsyncKeyState(0x4B) & 0x8000) {
+            msgQueue.push("k");
+        } else if(GetAsyncKeyState(0x4C) & 0x8000) {
+            msgQueue.push("l");
+        } else if(GetAsyncKeyState(0x4D) & 0x8000) {
+            msgQueue.push("m");
+        } else if(GetAsyncKeyState(0x4E) & 0x8000) {
+            msgQueue.push("n");
+        } else if(GetAsyncKeyState(0x4F) & 0x8000) {
+            msgQueue.push("o");
+        } else if(GetAsyncKeyState(0x50) & 0x8000) {
+            msgQueue.push("p");
+        } else if(GetAsyncKeyState(0x51) & 0x8000) {
+            msgQueue.push("q");
+        } else if(GetAsyncKeyState(0x52) & 0x8000) {
+            msgQueue.push("r");
+        } else if(GetAsyncKeyState(0x53) & 0x8000) {
+            msgQueue.push("s");
+        } else if(GetAsyncKeyState(0x54) & 0x8000) {
+            msgQueue.push("t");
+        } else if(GetAsyncKeyState(0x55) & 0x8000) {
+            msgQueue.push("u");
+        } else if(GetAsyncKeyState(0x56) & 0x8000) {
+            msgQueue.push("v");
+        } else if(GetAsyncKeyState(0x57) & 0x8000) {
+            msgQueue.push("w");
+        } else if(GetAsyncKeyState(0x58) & 0x8000) {
+            msgQueue.push("x");
+        } else if(GetAsyncKeyState(0x59) & 0x8000) {
+            msgQueue.push("y");
+        } else if(GetAsyncKeyState(0x5A) & 0x8000) {
+            msgQueue.push("z");
+        } else if(GetAsyncKeyState(0x20) & 0x8000) {
+            msgQueue.push(" ");
+        } else if(GetAsyncKeyState(VK_RETURN) & 0x8000) {
+            while(!msgQueue.empty()) {
+                returnData += msgQueue.front();
+                msgQueue.pop();
+            }
+        }
+
+        return returnData;
 }
